@@ -1,8 +1,27 @@
 import React, { Component } from 'react';
-
+import Pusher from 'pusher-js';
 import Grid from './Grid';
 
 class Map extends Component {
+  constructor(props) {
+    super(props);
+
+    const pusher = new Pusher('486260c7fadf87293227', {
+      cluster: 'us2',
+      forceTLS: true
+    });
+
+    const channel = pusher.subscribe("my-channel");
+    channel.bind("my-event", function (data) {
+      let noteMessage = document.createElement("p");
+      let a = document.createTextNode(JSON.stringify(data.description));
+      noteMessage.appendChild(a);
+      document.querySelector("#note-feed").appendChild(noteMessage);
+      document.querySelector("#note-feed").scrollTo(0, 235);
+    });
+
+  }
+
   render() {
     const page = {
       height: '100vh',
@@ -18,10 +37,10 @@ class Map extends Component {
 
     return (
       <div
-        style = { page }
+        style={page}
       >
         <Grid />
-        <div style = { side_panel }>
+        <div style={side_panel}>
           <Notifications />
           <Chat />
         </div>
@@ -39,9 +58,10 @@ const Notifications = props => {
 
   return (
     <div
-      style = { container }
+      style={container}
+      id="note-feed"
     >
-      Notifications
+      <h1>Notifications</h1>
     </div>
   )
 }
@@ -55,7 +75,7 @@ const Chat = props => {
 
   return (
     <div
-      style = { container }
+      style={container}
     >
       Chat
     </div>
