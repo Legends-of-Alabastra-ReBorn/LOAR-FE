@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 
 import Landing from './Landing';
-import Map from './Map';
+import Map from './Map/Map';
 
 export default class App extends Component {
   state = {
@@ -24,7 +24,8 @@ export default class App extends Component {
     const { api_key } = this.state
 
     return (
-      api_key ? 
+      // delete the exclamation point below when map is done
+      !api_key ? 
         <Map 
           api_key = { api_key }
         />
