@@ -1,26 +1,37 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { Component } from 'react';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+import Landing from './Landing';
+import Map from './Map';
+
+export default class App extends Component {
+  state = {
+    api_key: null
+  }
+
+  componentDidMount() {
+    this.getKey()
+  }
+
+  getKey = () => {
+    const api_key = localStorage.getItem('api_key')
+
+    if(api_key) {
+      this.setState({ api_key })
+    }
+  }
+
+  render() {
+    const { api_key } = this.state
+
+    return (
+      api_key ? 
+        <Map 
+          api_key = { api_key }
+        />
+      :
+        <Landing 
+          getKey = { this.getKey }
+        />
+    )
+  }
 }
-
-export default App;
