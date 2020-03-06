@@ -15,7 +15,7 @@ export default class App extends Component {
   getKey = () => {
     const api_key = localStorage.getItem('api_key')
 
-    if(api_key) {
+    if (api_key) {
       this.setState({ api_key })
     }
   }
@@ -25,14 +25,17 @@ export default class App extends Component {
 
     return (
       // delete the exclamation point below when map is done
-      !api_key ? 
-        <Map 
-          api_key = { api_key }
-        />
-      :
-        <Landing 
-          getKey = { this.getKey }
-        />
+      <Map
+        api_key={api_key}
+      />
+      // !api_key ? 
+      //   <Map 
+      //     api_key = { api_key }
+      //   />
+      // :
+      //   <Landing 
+      //     getKey = { this.getKey }
+      //   />
     )
   }
 }
