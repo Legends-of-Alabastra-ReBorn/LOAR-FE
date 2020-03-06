@@ -1,44 +1,37 @@
 import React, { Component } from 'react';
 
-const lumbda = require('./assets/lumbda.jpg')
-// const lumbda = require('./assets/1pxlDifference.PNG')
-
-const _doug = require('./assets/doug.png')
-const _mike = require('./assets/mike.png')
-const _miguel = require('./assets/miguel.png')
-const _dustin = require('./assets/dustin.png')
-
 export default class Grid extends Component {
   componentDidUpdate() {
-    const { doug, mike, miguel, dustin } = this.props.players
-    // console.log(
-    //   " Doug", doug, "\n",
-    //   "Mike", mike, "\n",
-    //   "Miguel", miguel, "\n",
-    //   "Dustin", dustin,
-    // )
-
     for(var ref in this.refs) {
       this.refs[ref].innerHTML = ''
     }
 
+    const { doug, mike, miguel, dustin } = this.props.players;
+
+    const _doug = require('./assets/doug.png')
+    const _mike = require('./assets/mike.png')
+    const _miguel = require('./assets/miguel.png')
+    const _dustin = require('./assets/dustin.png')
+
     const width = this.refs[1].getBoundingClientRect().width
     const height = this.refs[1].getBoundingClientRect().height
 
+    const style = "padding: 2px; background-color: rgba(0,0,0,0.5); border-radius: 3px; display: flex; justify-content: center; align-items: center;"
+
     if(doug) {
-      this.refs[doug].innerHTML = `<img style="width: ${width}px; height: ${height}px;" src = ${_doug} />`
+      this.refs[doug].innerHTML += `<div style='${style}'><img style="width: ${width}px; height: ${height}px;" src = ${_doug} /></div>`
     }
 
     if(mike) {
-      this.refs[mike].innerHTML = `<img style="width: ${width}px; height: ${height}px;" src = ${_mike} />`
+      this.refs[mike].innerHTML += `<div style='${style}'><img style="width: ${width}px; height: ${height}px;" src = ${_mike} /></div>`
     }
 
     if(miguel) {
-      this.refs[miguel].innerHTML = `<img style="width: ${width}px; height: ${height}px;" src = ${_miguel} />`
+      this.refs[miguel].innerHTML += `<div style='${style}'><img style="width: ${width}px; height: ${height}px;" src = ${_miguel} /></div>`
     }
 
     if(dustin) {
-      this.refs[dustin].innerHTML = `<img style="width: ${width}px; height: ${height}px;" src = ${_dustin} />`
+      this.refs[dustin].innerHTML += `<div style='${style}'><img style="width: ${width}px; height: ${height}px;" src = ${_dustin} /></div>`
     }
   }
 
@@ -56,7 +49,6 @@ export default class Grid extends Component {
 
     const overlay = {
       position: 'absolute',
-      border: '2px solid purple',
       height: '100%',
       width: '100%',
       zIndex: '1000',
@@ -73,7 +65,7 @@ export default class Grid extends Component {
         style = { container }
       >
         <img 
-          src = { lumbda } 
+          src = { require('./assets/lumbda.jpg') } 
           style = { bg }
           alt="bg"
         />

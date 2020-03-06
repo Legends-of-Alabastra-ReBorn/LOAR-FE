@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
+import axios from 'axios';
 import Pusher from 'pusher-js';
 import Grid from './Grid';
+import PanelItem from './PanelItem';
 
-class Map extends Component {
+export default class extends Component {
   state = {
     players: {
       doug: null,
@@ -10,6 +12,7 @@ class Map extends Component {
       miguel: null,
       dustin: null
     },
+    init: false,
     notifications: []
   }
 
@@ -21,13 +24,35 @@ class Map extends Component {
 
     const channel = pusher.subscribe("my-channel");
 
+    if(!this.state.init) {
+      axios
+        .get('https://alabastra-reborn.herokuapp.com/start/')
+        .then(res => console.log(res))
+        .catch(err => console.log(err))
+
+      channel.bind('init', data => {
+        console.log("In Init: ", data)
+        this.setState({
+          players: {
+            doug: data.doug_room,
+            mike: data.mike_room,
+            miguel: data.miguel_room
+          }
+        })
+      })
+
+      this.setState({ init: true })
+    }
+
     channel.bind("my-event", data => {
+      console.log("Data:", data)
       this.setState({ 
         players: {
           ...this.state.players,
-          [data.player]: data.room,
-          notifications: [...this.state.notifications, data]
-        }
+          [data.player]: data.room
+        },
+        notifications: [...this.state.notifications, data.message],
+        init: true
       })
     });
   }
@@ -53,61 +78,15 @@ class Map extends Component {
           players = { this.state.players }
         />
         <div style={side_panel}>
-          <Notifications 
+          <PanelItem
+            panel_type="notifications"
             notifications = { this.state.notifications }
           />
-          <Chat />
+          <PanelItem 
+            panel_type="chat"
+          />
         </div>
       </div>
     )
   }
 }
-
-const Notifications = props => {
-  const container = {
-    border: '2px solid red',
-    width: '100%',
-    height: '50%',
-    overflow: 'scroll'
-  }
-
-  return (
-    <div
-      style = { container }
-    >
-      <h1>Notifications</h1>
-      <ul>
-        { props.notifications && props.notifications.map(notification => (
-          <li>
-            { notification }
-          </li>
-        )) }
-      </ul>
-    </div>
-  )
-}
-
-const Chat = props => {
-  const container = {
-    border: '2px solid green',
-    width: '100%',
-    height: '50%'
-  }
-
-  return (
-    <div
-      style={container}
-    >
-      Chat
-    </div>
-  )
-}
-
-// let noteMessage = document.createElement("p");
-      // let a = document.createTextNode(JSON.stringify(data.description));
-      // noteMessage.appendChild(a);
-      // document.querySelector("#note-feed").appendChild(noteMessage);
-      // document.querySelector("#note-feed").scrollTo(0, 235);
-
-
-export default Map
