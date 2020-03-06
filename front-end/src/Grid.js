@@ -1,9 +1,94 @@
 import React, { Component } from 'react';
 
-// const lumbda = require('../assets/lumbda.jpg')
-const lumbda = require('../assets/1pxlDifference.PNG')
+const lumbda = require('./assets/lumbda.jpg')
+// const lumbda = require('./assets/1pxlDifference.PNG')
+
+const _doug = require('./assets/doug.png')
+const _mike = require('./assets/mike.png')
+const _miguel = require('./assets/miguel.png')
+const _dustin = require('./assets/dustin.png')
 
 export default class Grid extends Component {
+  componentDidUpdate() {
+    const { doug, mike, miguel, dustin } = this.props.players
+    // console.log(
+    //   " Doug", doug, "\n",
+    //   "Mike", mike, "\n",
+    //   "Miguel", miguel, "\n",
+    //   "Dustin", dustin,
+    // )
+
+    for(var ref in this.refs) {
+      this.refs[ref].innerHTML = ''
+    }
+
+    const width = this.refs[1].getBoundingClientRect().width
+    const height = this.refs[1].getBoundingClientRect().height
+
+    if(doug) {
+      this.refs[doug].innerHTML = `<img style="width: ${width}px; height: ${height}px;" src = ${_doug} />`
+    }
+
+    if(mike) {
+      this.refs[mike].innerHTML = `<img style="width: ${width}px; height: ${height}px;" src = ${_mike} />`
+    }
+
+    if(miguel) {
+      this.refs[miguel].innerHTML = `<img style="width: ${width}px; height: ${height}px;" src = ${_miguel} />`
+    }
+
+    if(dustin) {
+      this.refs[dustin].innerHTML = `<img style="width: ${width}px; height: ${height}px;" src = ${_dustin} />`
+    }
+  }
+
+  render() {
+    const container = {
+      height: '100%',
+      width: '100%',
+      position: 'relative'
+    }
+
+    const bg = {
+      height: '100%',
+      width: 'auto'
+    }
+
+    const overlay = {
+      position: 'absolute',
+      border: '2px solid purple',
+      height: '100%',
+      width: '100%',
+      zIndex: '1000',
+      top: 0,
+      left: 0,
+      display: 'grid',
+      gridTemplateColumns: 'repeat(40, 1fr)',
+      gridTemplateRows: 'repeat(31, 1fr)',
+      padding: '5px 15px 0 13px'
+    }
+
+    return (
+      <div
+        style = { container }
+      >
+        <img 
+          src = { lumbda } 
+          style = { bg }
+          alt="bg"
+        />
+        <div style = { overlay }>
+          { Array.from(Array(1240).keys()).map((item, i) => (
+            <div 
+              ref = { this.getId(item) }
+              key = { i }
+            ></div>
+          ))}
+        </div>
+      </div>
+    )
+  }
+
   getId = item => {
     switch(item) {
       case 14:
@@ -1008,58 +1093,5 @@ export default class Grid extends Component {
         return 489
       default: return `x-${item}`;
     }
-  }
-
-  render() {
-    const container = {
-      height: '100%',
-      width: '100%',
-      position: 'relative'
-    }
-
-    const bg = {
-      height: '100%',
-      width: 'auto'
-    }
-
-    const overlay = {
-      position: 'absolute',
-      border: '2px solid purple',
-      height: '100%',
-      width: '100%',
-      zIndex: '1000',
-      top: 0,
-      left: 0,
-      display: 'grid',
-      gridTemplateColumns: 'repeat(40, 1fr)',
-      gridTemplateRows: 'repeat(31, 1fr)',
-      padding: '5px 15px 0 13px'
-    }
-
-    const grid_item = {
-      border: '1px solid rgba(255, 0, 0, .5)',
-      fontSize: '0.2rem'
-    }
-
-    return (
-      <div
-        style = { container }
-      >
-        <img 
-          src = { lumbda } 
-          style = { bg }
-        />
-        <div style = { overlay }>
-          { Array.from(Array(1240).keys()).map(item => (
-            <div 
-              style = { grid_item }
-              id = { this.getId(item) }
-            >
-              { item }
-            </div>
-          ))}
-        </div>
-      </div>
-    )
   }
 }
