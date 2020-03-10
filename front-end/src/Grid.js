@@ -13,25 +13,43 @@ export default class Grid extends Component {
     const _miguel = require('./assets/miguel.png')
     const _dustin = require('./assets/dustin.png')
 
-    const width = this.refs[1].getBoundingClientRect().width
-    const height = this.refs[1].getBoundingClientRect().height
+    const width = this.refs[1].getBoundingClientRect().width - 2
+    const height = this.refs[1].getBoundingClientRect().height - 2
 
-    const style = "padding: 2px; background-color: rgba(0,0,0,0.5); border-radius: 3px; display: flex; justify-content: center; align-items: center;"
+    const style = "padding: 2px; border-radius: 3px; display: flex; justify-content: center; align-items: center; position: absolute;"
 
     if(doug) {
-      this.refs[doug].innerHTML += `<div style='${style}'><img style="width: ${width}px; height: ${height}px;" src = ${_doug} /></div>`
+      this.refs[doug].innerHTML += `<div style='${style} top: 0px; left: 0px;'><img style="width: ${width}px; height: ${height}px;" src = ${_doug} /></div>`
     }
 
     if(mike) {
-      this.refs[mike].innerHTML += `<div style='${style}'><img style="width: ${width}px; height: ${height}px;" src = ${_mike} /></div>`
+      if(doug && mike === doug) {
+        this.refs[mike].innerHTML += `<div style='${style} top: 5px; left: 5px;'><img style="width: ${width}px; height: ${height}px;" src = ${_mike} /></div>`
+      } else {
+        this.refs[mike].innerHTML += `<div style='${style} top: 0px; left: 0px;'><img style="width: ${width}px; height: ${height}px;" src = ${_mike} /></div>`
+      }
     }
 
     if(miguel) {
-      this.refs[miguel].innerHTML += `<div style='${style}'><img style="width: ${width}px; height: ${height}px;" src = ${_miguel} /></div>`
+      if((mike && doug) && miguel === mike && miguel === doug) {
+        this.refs[miguel].innerHTML += `<div style='${style} top: 10px; left: 10px;'><img style="width: ${width}px; height: ${height}px;" src = ${_miguel} /></div>`
+      } else if((mike && miguel === mike) || (doug && miguel === doug)) {
+        this.refs[miguel].innerHTML += `<div style='${style} top: 5px; left: 5px;'><img style="width: ${width}px; height: ${height}px;" src = ${_miguel} /></div>`
+      } else {
+        this.refs[miguel].innerHTML += `<div style='${style} top: 0px; left: 0px;'><img style="width: ${width}px; height: ${height}px;" src = ${_miguel} /></div>`
+      }
     }
 
     if(dustin) {
-      this.refs[dustin].innerHTML += `<div style='${style}'><img style="width: ${width}px; height: ${height}px;" src = ${_dustin} /></div>`
+      if((doug && mike && miguel) && dustin === doug && dustin === mike && dustin === miguel) {
+        this.refs[dustin].innerHTML += `<div style='${style} top: 15px; left: 15px;'><img style="width: ${width}px; height: ${height}px;" src = ${_dustin} /></div>`
+      } else if((mike && miguel && dustin === mike && dustin === miguel) || (mike && doug && dustin === mike && dustin === doug) || (doug && miguel && dustin === doug && dustin === miguel)) {
+        this.refs[dustin].innerHTML += `<div style='${style} top: 10px; left: 10px;'><img style="width: ${width}px; height: ${height}px;" src = ${_dustin} /></div>`
+      } else if((doug && dustin === doug) || (mike && dustin === mike) || (miguel && dustin === miguel)) {
+        this.refs[dustin].innerHTML += `<div style='${style} top: 5px; left: 5px;'><img style="width: ${width}px; height: ${height}px;" src = ${_dustin} /></div>`
+      } else {
+        this.refs[dustin].innerHTML += `<div style='${style} top: 0px; left: 0px;'><img style="width: ${width}px; height: ${height}px;" src = ${_dustin} /></div>`
+      }
     }
   }
 
@@ -74,6 +92,7 @@ export default class Grid extends Component {
             <div 
               ref = { this.getId(item) }
               key = { i }
+              style = {{ position: 'relative' }}
             ></div>
           ))}
         </div>

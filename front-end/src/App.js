@@ -82,9 +82,9 @@ export default class extends Component {
             panel_type="notifications"
             notifications = { this.state.notifications }
           />
-          <PanelItem 
+          {/* <PanelItem 
             panel_type="chat"
-          />
+          /> */}
         </div>
       </div>
     )
