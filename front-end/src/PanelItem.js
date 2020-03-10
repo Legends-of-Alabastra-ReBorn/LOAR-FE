@@ -19,7 +19,7 @@ export default class extends Component {
   render() {
     const container = {
       width: '100%',
-      height: '50%',
+      height: '100%',
       position: 'relative',
       border: '1px solid black'
     }
@@ -30,6 +30,14 @@ export default class extends Component {
       left: 0,
       width: '100%',
       height: '100%'
+    }
+
+    const badge = {
+      zIndex: 1000,
+      position: 'absolute',
+      width: '300px',
+      left: 'calc(50% - 150px)',
+      top: 10
     }
 
     const list = {
@@ -54,6 +62,10 @@ export default class extends Component {
           src = { panel_type === 'notifications' ? require('./assets/notification-bg.jpg') : require('./assets/chat-bg.jpg') }
           style = { bg }
           alt = { panel_type === 'notifications' ? 'notification panel' : 'chat panel' }
+        />
+        <img 
+          src = { panel_type === 'notifications' ? require('./assets/notification-badge.png') : null }
+          style = { badge }
         />
         { panel_type === 'notifications' ? 
           <ul 
