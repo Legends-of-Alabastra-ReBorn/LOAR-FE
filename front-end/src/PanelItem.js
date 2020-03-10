@@ -43,7 +43,7 @@ export default class extends Component {
     const list = {
       zIndex: 1000,
       position: 'absolute',
-      top: 60,
+      top: 70,
       left: 25,
       width: 'calc(100% - 50px)',
       height: 'calc(100% - 70px)',
